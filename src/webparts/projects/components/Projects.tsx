@@ -21,6 +21,9 @@ export default class Projects extends React.Component<IProjectsProps, IProjectsP
     this._pnpService.getWeb().then(web=>{
       console.log(web);
     });
+    this._pnpService.getProjects().then(web=>{
+      console.log(web);
+    });
   }
 
   public render(): React.ReactElement<IProjectsProps> {

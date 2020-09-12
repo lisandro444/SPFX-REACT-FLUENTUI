@@ -4,7 +4,15 @@
    * Chrome browser: https://aka.ms/spfx-debugger-extensions
    */
   "version": "0.2.0",
-  "configurations": [{
+  "configurations": [
+  {
+    "name": "Launch Chrome",
+    "request": "launch",
+    "type": "pwa-chrome",
+    "url": "http://localhost:8080",
+    "webRoot": "${workspaceFolder}"
+  },
+  {
       "name": "Local workbench",
       "type": "chrome",
       "request": "launch",
@@ -25,7 +33,7 @@
       "name": "Hosted workbench",
       "type": "chrome",
       "request": "launch",
-      "url": "https://enter-your-SharePoint-site/_layouts/workbench.aspx",
+      "url": "https://fonplataorg.sharepoint.com/sites/Intranet-QA/_layouts/workbench.aspx",
       "webRoot": "${workspaceRoot}",
       "sourceMaps": true,
       "sourceMapPathOverrides": {

@@ -1,10 +1,10 @@
 import { INavLinkGroup, INavLink } from 'office-ui-fabric-react/lib/Nav';
-import { sp } from '@pnp/sp';
 import "@pnp/sp/webs";
 import "@pnp/sp/lists";
 import "@pnp/sp/items";
 import { BaseWebPartContext } from "@microsoft/sp-webpart-base";
-import { SPHttpClient } from '@pnp/sp';
+import { Web } from '@pnp/sp/webs';
+import { ICamlQuery } from '@pnp/sp/lists';
 
 export class PnPService {
     private _context;
@@ -12,22 +12,16 @@ export class PnPService {
         this._context = context;
     }
 
-    public async getWeb(): Promise<any> {
+    public async getProjectsWithSite(url): Promise<any[]> {
         try {
-            const w = await sp.web.select("Gerencia de Operaciones")();
-            return w.Title;
-        }
-        catch (error) {
-            console.log("Get WEb: " + error);
-            return null;
-        }
-    }
-
-    public async getProjectsWithSite(): Promise<any> {
-        try {
-            // get all the items from a list
-            const items: any[] = await sp.web.lists.getByTitle("Proyectos").items.get();
+            let initialweb = Web(url);
+            const caml: ICamlQuery = {
+                ViewXml: "<View><Query><Where><IsNotNull><FieldRef Name='Link'/></IsNotNull></Where></Query></View>",
+            };
+            let items = await initialweb.lists.getByTitle("Proyectos").getItemsByCAMLQuery(caml);
+            console.log("CAML Query");
             console.log(items);
+            return items;
         }
         catch (error) {
             console.log("getProjects: " + error);

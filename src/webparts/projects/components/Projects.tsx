@@ -1,7 +1,6 @@
 import * as React from 'react';
 import styles from './Projects.module.scss';
 import { IProjectsProps } from './IProjectsProps';
-import { escape } from '@microsoft/sp-lodash-subset';
 import { PnPService } from '../services/PnPService';
 import { IProjectsPropsState } from './IProjectsState';
 
@@ -14,15 +13,10 @@ export default class Projects extends React.Component<IProjectsProps, IProjectsP
     this.state = {
       url: this.props.context.pageContext.web.absoluteUrl,
     };
-    
   }
 
   public componentDidMount(){
-    this._pnpService.getWeb().then(web=>{
-      console.log(web);
-    });
-    this._pnpService.getProjects().then(web=>{
-      console.log(web);
+    this._pnpService.getProjectsWithSite(this.state.url).then(items=>{
     });
   }
 

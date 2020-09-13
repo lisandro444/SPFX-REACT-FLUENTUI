@@ -9,8 +9,10 @@ import { IProject } from '../Entities/Project';
 
 export class PnPService {
     private _context;
+    private _siteUrl;
     constructor(context: BaseWebPartContext) {
         this._context = context;
+        this._siteUrl = context.pageContext.web.absoluteUrl;
     }
 
     public async getProjectsWithSite(url): Promise<any[]> {
@@ -40,6 +42,34 @@ export class PnPService {
         }
         catch (error) {
             console.log("getTipoDeDocumentos: " + error);
+            return null;
+        }
+    }
+
+    public async getInbox(url): Promise<any[]> {
+        try {
+            let initialweb = Web(url);
+            let items = await initialweb.lists.getByTitle("Bandeja de Entrada").items.get();
+            console.log("Inbox: ");
+            console.log(items);
+            return items;
+        }
+        catch (error) {
+            console.log("getInbox: " + error);
+            return null;
+        }
+    }
+
+    public async getInboxById(Id): Promise<any> {
+        try {
+            let initialweb = Web(this._siteUrl);
+            let docs = await initialweb.lists.getByTitle("Bandeja de Entrada").items.getById(Id);
+            console.log("Doc asociado: ");
+            console.log(docs);
+            return docs;
+        }
+        catch (error) {
+            console.log("getInboxById: " + error);
             return null;
         }
     }

@@ -6,6 +6,8 @@ import { IProjectsPropsState } from './IProjectsState';
 import { IStackTokens, Stack } from 'office-ui-fabric-react/lib/Stack';
 import { Dropdown, DropdownMenuItemType, IDropdownStyles, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import { IProject } from '../Entities/Project';
+import { TextField } from 'office-ui-fabric-react';
+import Inbox from './Inbox';
 
 export default class Projects extends React.Component<IProjectsProps, IProjectsPropsState> {
 
@@ -38,8 +40,8 @@ export default class Projects extends React.Component<IProjectsProps, IProjectsP
     this._pnpService.getTipoDeDocumentos(this.state.url).then(typeDocs => {
       typeDocs.forEach(typeDoc => {
         const newTypeDoc: IDropdownOption = {
-          key: typeDoc["Titulo"],
-          text: typeDoc["Codigo"]
+          key: typeDoc["Codigo"],
+          text: typeDoc["Title"]
         };
         this._typeDocs.push(newTypeDoc);
       });
@@ -76,6 +78,7 @@ export default class Projects extends React.Component<IProjectsProps, IProjectsP
                 options={this.state.typeDocs}
                 styles={dropdownStyles}
               />
+              <Inbox context={this.props.context} /> 
             </div>
           </div>
         </div>

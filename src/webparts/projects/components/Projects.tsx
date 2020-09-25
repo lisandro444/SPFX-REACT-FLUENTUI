@@ -20,7 +20,10 @@ export default class Projects extends React.Component<IProjectsProps, IProjectsP
     this.state = {
       url: this.props.context.pageContext.web.absoluteUrl,
       projects: this._projects,
-      typeDocs: this._typeDocs
+      typeDocs: this._typeDocs,
+      status: 'Ready',  
+      searchText: '',  
+      items: [],
     };
   }
 
@@ -45,6 +48,11 @@ export default class Projects extends React.Component<IProjectsProps, IProjectsP
         };
         this._typeDocs.push(newTypeDoc);
       });
+  });
+
+  const queryText = "sharepoint";
+  this._pnpService.getSearchResults(queryText).then(result => {
+    console.log(result.items);
   });
 
     this.setState({

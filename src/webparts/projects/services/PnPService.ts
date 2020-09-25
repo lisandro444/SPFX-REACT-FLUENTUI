@@ -82,8 +82,8 @@ export class PnPService {
 
     public async getSearchResults(query: string): Promise<ISPSearchResult[]> {  
           
-        let url: string = this._context.pageContext.web.absoluteUrl + "/_api/search/query?querytext='" + query + "'";  
-          
+        let url: string = this._context.pageContext.web.absoluteUrl + "/_api/search/query?querytext=" + query;  
+         console.log(url); 
         return new Promise<ISPSearchResult[]>((resolve, reject) => {  
             // Do an Ajax call to receive the search results  
             this._getSearchData(url).then((res: ISearchResults) => {  

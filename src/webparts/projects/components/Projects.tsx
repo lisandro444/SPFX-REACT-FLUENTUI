@@ -50,8 +50,9 @@ export default class Projects extends React.Component<IProjectsProps, IProjectsP
       });
   });
 
-  const queryText = "sharepoint";
-  this._pnpService.getSearchResults(queryText).then(result => {
+  const queryText = "'sharepoint'&selectproperties='Path,Url,Title,Author'";
+  const queryText2 = "'https://fonplataorg.sharepoint.com/sites/ITS_ARG_Seguimiento'&selectproperties='TipoDocumentoURL'";
+  this._pnpService.getSearchResults(queryText2).then(result => {
     console.log(result.items);
   });
 

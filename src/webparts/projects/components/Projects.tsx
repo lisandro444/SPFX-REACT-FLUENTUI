@@ -50,7 +50,8 @@ export default class Projects extends React.Component<IProjectsProps, IProjectsP
       });
   });
 
-  this._pnpService.GetAllDocumentsFromProject("https://fonplataorg.sharepoint.com/sites/ITS_ARG_Contratos_123").then(docs => {
+  this._pnpService.GetAllDocumentsFromProject("https://fonplataorg.sharepoint.com/sites/ITS_ARG_Seguimiento/").then(docs => {
+    console.log("Documentos..............");
     console.log(docs);
   });
 

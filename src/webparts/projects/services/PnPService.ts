@@ -8,13 +8,12 @@ import { ICamlQuery } from '@pnp/sp/lists';
 import { SPHttpClient, SPHttpClientResponse } from '@microsoft/sp-http';
 // import { IWebPartContext } from '@microsoft/sp-webpart-base';  
 import { ISPSearchResult } from '../components/ISPSearchResult';
-import { ISearchResults, ICells, ICellValue, ISearchResponse } from './ISearchService';
-import { escape } from '@microsoft/sp-lodash-subset';
+import { ISearchResults, ICells, ICellValue } from './ISearchService';
 
 export class PnPService {
     private _context;
     private _siteUrl;
-    private docsLibraries: any = ["Analisis","Adquisiciones", "Contrato", "Financieros"];
+    private docsLibraries: any = ["Analisis", "Adquisiciones", "Contrato", "Financieros"];
     constructor(context: BaseWebPartContext) {
         this._context = context;
         this._siteUrl = context.pageContext.web.absoluteUrl;
@@ -80,23 +79,35 @@ export class PnPService {
     }
 
     // Get Documents
-    public async GetAllDocumentsFromProject(url): Promise<any[]> {
-        const resultsDocs: any[] = [] ;
+    public GetAllDocumentsFromProject(url): any[] {
+        let resultsDocs: any[] = [];
         try {
             let initialweb = Web(url);
-            initialweb.lists.get().then(data => {
+            initialweb.lists.get().then(async data => {
                 for (var i = 0; i < data.length; i++) {
-                    if (data[i].BaseType == "1" && this.docsLibraries.indexOf(data[i].Title) > -1) {
-                        let docfromList = initialweb.lists.getByTitle(data[i].Title).items.getAll();
-                        resultsDocs.push(docfromList);
+                    if (data[i].BaseTemplate == 101 && this.docsLibraries.indexOf(data[i].Title) > -1) {
+                        let docs = await initialweb.lists.getByTitle(data[i].Title).items.get();
+                        let docsFiltered = docs.filter(x => x.TipoDocumento != null);
+                        docsFiltered.forEach(doc => {
+                            resultsDocs.push(doc);
+                        });
                     }
                 }
+                console.log("Documentos desde el servicio.........................");
+                console.log(resultsDocs);
                 return resultsDocs;
             }).catch(data => { console.log(data); });
         } catch (error) {
             console.log("GetAllDocumentsFromProject: " + error);
             return error;
         }
+    }
+
+    private getTermNameById(id: string) {
+        //const stores = await taxonomy.termStores.get();
+        // const store: ITermStore = taxonomy.termStores.getByName("Taxonomy_v5o/SbcTE2cegwO2dtAN9l==");
+
+        // const group: ITermGroup = store.getTermGroupById("0ba6845c-1468-4ec5-a5a8-718f1fb05431");
     }
 
     // Search Logic
